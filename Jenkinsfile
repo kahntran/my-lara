@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                build job: 'Jenkins_create_images/master',  parameters: [
+                build job: 'Jenkins_create_images',  parameters: [
                     string(name: 'SOURCE_DIRECTORY', value: "${WORKSPACE}"),
                     string(name: 'DEPLOY_JOB_NAME', value: "${env.JOB_NAME}")
                 ]
@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                build job: 'Jenkins_deploy_images/master',  parameters: [
+                build job: 'Jenkins_deploy_images',  parameters: [
                     string(name: 'SOURCE_DIRECTORY', value: "${WORKSPACE}"),
                     string(name: 'DEPLOY_JOB_NAME', value: "${env.JOB_NAME}"),
                     string(name: 'REPOSITORY', value: "docker-registry.example.lara"),
