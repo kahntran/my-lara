@@ -101,8 +101,6 @@ services:
     tty: true
     environment:
     - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-    networks:
-    - traefik
 
   ### PHP-FPM ##############################################
   php-fpm:
@@ -151,8 +149,6 @@ services:
     - FAKETIME=${PHP_FPM_FAKETIME}
     depends_on:
     - workspace
-    networks:
-    - traefik
 
   ### MySQL ################################################
   mysql:
@@ -171,5 +167,3 @@ services:
     - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
     - "${MYSQL_PORT}:3306"
-    networks:
-    - traefik
