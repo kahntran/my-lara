@@ -15,6 +15,8 @@ services:
       - traefik.frontend.rule=Host:abc.swarm.example.lara
       - traefik.frontend.whitelist.sourceRange=127.0.0.1,192.168.1.143,192.30.252.0/22,185.199.108.0/22,140.82.112.0/20
       - traefik.docker.network=traefik
+    volumes:
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
     extra_hosts:
     - "dockerhost:${DOCKER_HOST_IP}"
     tty: true
@@ -33,6 +35,9 @@ services:
       labels:
       - traefik.frontend.whitelist.sourceRange=127.0.0.1,192.168.1.143,192.30.252.0/22,185.199.108.0/22,140.82.112.0/20
       - traefik.docker.network=traefik
+    volumes:
+    - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+    - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
     extra_hosts:
     - "dockerhost:${DOCKER_HOST_IP}"
     environment:
@@ -59,5 +64,8 @@ services:
     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     - TZ=${WORKSPACE_TIMEZONE}
+    volumes:
+    - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+    - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
     ports:
     - "${MYSQL_PORT}:3306"
